@@ -1,0 +1,28 @@
+#include <WiFi.h>
+#include <ThingSpeak.h>
+WiFiClient client;
+void setup()
+{
+Serial.begin(9600);
+ThingSpeak.begin(client);
+WiFi.disconnect();
+delay(3000);
+Serial.println("START");
+WiFi.begin("GMIT","DAVANGERE");
+while ((!(WiFi.status() == WL_CONNECTED)))
+{
+delay(300);
+Serial.print("..");
+}
+Serial.println("Your IP is");
+Serial.println((WiFi.localIP().toString()));
+Serial.println("Connected");
+}
+void loop()
+{
+Serial.print("Temperature=");
+Serial.println((ThingSpeak.readIntField(12345,1,"ABCDEFGH")));
+Serial.print("Humidity=");
+Serial.println((ThingSpeak.readIntField(12345,2,"ABCDEFGH")));
+delay(3000);
+}
