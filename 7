@@ -1,0 +1,20 @@
+#define RELAY_PIN 8 
+#define BUTTON_PIN 2 
+void setup()
+{
+Serial.begin(9600);
+pinMode(RELAY_PIN, OUTPUT);
+pinMode(BUTTON_PIN, INPUT);
+}
+void loop()
+{
+int buttonState = digitalRead(BUTTON_PIN);
+if(buttonState == HIGH)
+{
+digitalWrite(RELAY_PIN, HIGH);
+delay(1000);
+} else
+{
+digitalWrite(RELAY_PIN, LOW);
+}
+}
