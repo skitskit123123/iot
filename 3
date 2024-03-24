@@ -1,0 +1,18 @@
+#define dht_dpin 2
+#include<dht.h>
+dht DHT;
+void setup()
+{
+Serial.begin(9600);
+Serial.println("Humidity and temperature\n\n");
+}
+void loop()
+{
+DHT.read11(dht_dpin);
+Serial.print("Current humidity = ");
+Serial.print(DHT.humidity);
+Serial.print("temperature = ");
+Serial.print(DHT.temperature);
+Serial.println("C ");
+delay(1000);
+}
