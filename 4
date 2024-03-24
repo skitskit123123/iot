@@ -12,13 +12,13 @@ lcd.begin();
 void loop()
 {
 DHT.read11(dht_dpin);
-lcd.setCursor(0, 0);//(Col,ROW)
+lcd.setCursor(0, 0);
 lcd.print("Temp=");
-lcd.print(DHT.temperature); //print the temperature
+lcd.print(DHT.temperature);
 lcd.print("Celsius");
-lcd.setCursor(0, 1);//(Col,ROW)
+lcd.setCursor(0, 1);
 lcd.print("Humidity=");
-lcd.print(DHT.humidity); //print the humidity
+lcd.print(DHT.humidity);
 lcd.print("%");
 delay(2000);
 }
