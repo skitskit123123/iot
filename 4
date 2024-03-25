@@ -1,24 +1,24 @@
-#include <Wire.h>
-#include <LiquidCrystal_I2C.h>
-LiquidCrystal_I2C lcd(0x27,16,2);
-#define dht_dpin 7
 #include<dht.h>
+#include<liquidCrystal.h>
+liquidCyrstal lcd(12,11,5,4,3,2);
+#define dhtpin A0;
 dht DHT;
 void setup()
 {
-Serial.begin(9600);
-lcd.begin();
+  Serial.begin(9600);
+  lcd.begin(16,2);
 }
 void loop()
 {
-DHT.read11(dht_dpin);
-lcd.setCursor(0, 0);
-lcd.print("Temp=");
-lcd.print(DHT.temperature);
-lcd.print("Celsius");
-lcd.setCursor(0, 1);
-lcd.print("Humidity=");
-lcd.print(DHT.humidity);
-lcd.print("%");
-delay(2000);
+  int val=DHT.read11(dhtpin);
+  int cel=DHT.temperature;
+  int humi=DHT.humidity;
+  lcd.print("temperature");
+  lcd.print(cel);
+  lcd.print((char)223);
+  lcd.setCursor(0,1);
+  lcd.print("humidity");
+  lcd.print(humi);
+  delay(1000);
+  lcd.clear();
 }
