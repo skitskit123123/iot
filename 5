@@ -1,22 +1,24 @@
-#include <BluetoothSerial.h>
-BluetoothSerial SerialBT;
-byte BTData;
-#include "DHT.h"
-DHT dht(2,DHT11);
-#if !defined(CONFIG_BT_ENABLED) || !defined(CONFIG_BLUEDROID_ENABLED)
-#error Bluetooth is not enabled! Please run `make menuconfig` to and enable it
-#endif
+#include<dht.h>
+#include outpin8
+dht DHT
 void setup()
 {
-Serial.begin(115200);
-SerialBT.begin();
-Serial.println("Bluetooth Started! Ready to pair...");
+  Serial.begin(9600);
+  Serial.println("DHTxx test!");
 }
 void loop()
 {
-Serial.print("Temperature in c :");
-Serial.println(dht.readTemperature( ));
-String temperatureString = String(dht.readTemperature( ));
-SerialBT.println(temperatureString);
-delay(2000);
+  int read Data=DHT.read11(outpin);
+  float t= DHT.temperature;
+  float h= DHT.humidity;
+  if(isnan(h)||isnan(t))
+  {
+    Serial.println("Failed to read from DHT sensor!");
+    return;
+  }
+  else
+  String message=(string)"humidity:"+h+"% temperature"+t+"c";
+  Serial.println(message);
+  delay(2000);
+  
 }
