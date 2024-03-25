@@ -1,31 +1,19 @@
-#include <BluetoothSerial.h>
-#define ledPIN 2 //D2 pin
-BluetoothSerial SerialBT;
-byte BTData;
-#if !defined(CONFIG_BT_ENABLED) || !defined(CONFIG_BLUEDROID_ENABLED)
-#error Bluetooth is not enabled! Please run `make menuconfig` to and enable it
-#endif
+char data =0;
 void setup()
 {
-pinMode(ledPIN, OUTPUT);
-Serial.begin(115200);
-SerialBT.begin();
-Serial.println("Bluetooth Started! Ready to pair...");
+  Serial.begin(9600);
+  pinMode(13,OUTPUT);
+  
 }
 void loop()
 {
-if(SerialBT.available())
-{
-BTData = SerialBT.read();
-Serial.write(BTData);
-}
-if(BTData == '1')
-{
-digitalWrite(ledPIN, HIGH);
-}
-/* If received Character is 0, then turn OFF the LED */
-if(BTData == '0')
-{
-digitalWrite(ledPIN, LOW);
-}
+  if(Serial.available()>0)
+  {
+    data=Serial.read();
+    Serial.print(data);
+    if(data=='1')
+    digitalWrite(13,HIGH);
+    else if(data=='0')
+    digitalWrite(13,LOW);
+  }
 }
