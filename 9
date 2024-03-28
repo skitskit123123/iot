@@ -1,41 +1,45 @@
-#define TRIG_PIN 18 
-#define ECHO_PIN 5 
-#define LED 2
-#define LED2 4
-float duration_us, distance_cm;
+9.	Create an AngularJS application that displays a list of employees and their salaries. Allow users to search for employees by name and salary. Note: Employee details may be included in the program.
 
-void setup() {
-  Serial.begin (9600);
-  pinMode(TRIG_PIN, OUTPUT);
-  pinMode(ECHO_PIN, INPUT);
-  pinMode(LED, OUTPUT);
-  pinMode(LED2, OUTPUT);
-}
+<!DOCTYPE html>
+<html ng-app="employeeApp">
+<head>
+  <title>Employee Salary details </title>
+    <script src="angular.min.js"></script>
+</head>
+<body>
 
-void loop() {
-  digitalWrite(TRIG_PIN, HIGH);
-  delayMicroseconds(10);
-  digitalWrite(TRIG_PIN, LOW);
-  duration_us = pulseIn(ECHO_PIN, HIGH);
-  distance_cm = 0.017 * duration_us;
+<div ng-controller="employeeCtrl" id="employeeList">
+  <h2>Employee List and their Salaries </h2>
 
-  if (distance_cm < 30)
-  {
-  digitalWrite(LED, HIGH);
-  }
-  else{digitalWrite(LED, LOW);
-  }
- 
-  Serial.print("distanceA: ");
-  Serial.print(distance_cm);
-  Serial.println(" cm      ");
-  Blink(LED2);
-  delay(500);
-}
+  <label for="searchName">Search by Name:</label>
+  <input type="text" id="searchName" ng-model="searchName">
 
+  <label for="searchSalary">Search by Salary:</label>
+  <input type="number" id="searchSalary" ng-model="searchSalary">
 
-void Blink(int x){
-  digitalWrite(x, HIGH);
-  delay(10);
-  digitalWrite(x, LOW);
-}
+  <table>
+    <tr>
+      <th>Name </th>
+      <th>Salary(Rs.)</th>
+    </tr>
+    <tr ng-repeat="employee in employees | filter:{name: searchName, salary: searchSalary}">
+      <td>{{ employee.name }}</td>
+      <td>{{ employee.salary}}</td>
+    </tr>
+  </table>
+</div>
+
+<script>
+  var app = angular.module('employeeApp', []);
+
+  app.controller('employeeCtrl', function ($scope) {
+    $scope.employees = [
+      { name: 'Manjunath', salary: 50000 },
+      { name: 'Sachin', salary: 60000 },
+      { name: 'Ravikiran', salary: 75000 }
+     ];
+  });
+</script>
+</body>
+</html>
+
