@@ -1,12 +1,44 @@
-const int LED=13;
-void setup()
-{
-pinMode(buzzer, OUTPUT);
-}
-void loop()
-{
-digitalWrite(LED, HIGH);
-delay(1000);
-digitalWrite(LED, LOW);
-delay(2000); 
-}
+<!DOCTYPE html>
+<html ng-app="fullNameApp">
+    
+<head>
+  <title>Program 1_First Name and Last Name </title>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+</head>
+
+<body ng-controller="FullNameController">
+    
+  <h2>Enter the Name</h2>
+  
+  <form>
+    <label for="firstName">First Name:</label>
+    <input type="text" id="firstName" ng-model="firstName" required>
+  </form>
+  
+  <form>
+    <label for="lastName">Last Name:</label>
+    <input type="text" id="lastName" ng-model="lastName" required>
+  </form>ಪ್
+  
+  <form>
+    <button ng-click="displayFullName()">Display Full Name</button>
+  </form>
+  
+  <p ng-show="fullName">Full Name is : {{ fullName }}</p>
+  
+  <script>
+    angular.module('fullNameApp', [])
+      .controller('FullNameController', function ($scope) 
+         
+ {
+        $scope.firstName = 'ACS';
+        $scope.lastName = 'College of Engineering ';
+        $scope.displayFullName = function () 
+        {
+          $scope.fullName = $scope.firstName + ' ' + $scope.lastName;
+        };
+      });
+  </script>
+  
+</body>
+</html>uAaa~Aa
