@@ -1,24 +1,35 @@
-#include<dht.h>
-#include<liquidCrystal.h>
-liquidCyrstal lcd(12,11,5,4,3,2);
-#define dhtpin A0;
-dht DHT;
-void setup()
-{
-  Serial.begin(9600);
-  lcd.begin(16,2);
-}
-void loop()
-{
-  int val=DHT.read11(dhtpin);
-  int cel=DHT.temperature;
-  int humi=DHT.humidity;
-  lcd.print("temperature");
-  lcd.print(cel);
-  lcd.print((char)223);
-  lcd.setCursor(0,1);
-  lcd.print("humidity");
-  lcd.print(humi);
-  delay(1000);
-  lcd.clear();
-}
+4. Write an Angular JS application that can calculate factorial and compute square based on given user input.
+
+<!DOCTYPE html>
+<html ng-app="FactorialSquare">
+<head>
+  <title>Compute Factorial and Square</title>
+  <script src="angular.min.js"></script>
+  </head>
+  <body ng-controller="factsquareController">
+  <h2>Factorial and Square</h2>
+  <label for="numberInput">Enter a number:</label>
+  <input type="number" ng-model="numberInput" id="numberInput" />
+  <div class="result">
+    <p>Factorial: {{ calculateFactorial() }}</p>
+    <p>Square: {{ calculateSquare() }}</p>
+  </div>
+  <script>
+    var app = angular.module('FactorialSquare', []);
+    app.controller('factsquareController', function ($scope) {
+      $scope.numberInput = 0;
+      $scope.calculateFactorial = function () {
+        var result = 1;
+        for (var i = 2; i <= $scope.numberInput; i++) {
+          result *= i;
+        }
+        return result;
+      };
+      $scope.calculateSquare = function () {
+        return $scope.numberInput * $scope.numberInput;
+      };
+    });
+  </script>
+</body>
+</html>
+
