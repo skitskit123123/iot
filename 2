@@ -1,18 +1,44 @@
-int sensorPin = A0;
-int sensorValue = 0;
-int led=13;
-void setup()
-{
-Serial.begin(9600);
-pinMode(13, OUTPUT);
-}
-void loop()
-{
-sensorValue = analogRead(sensorPin);
-Serial.println(sensorValue);
-if (sensorValue<400)
-digitalWrite(13, HIGH);
-else
-digitalWrite(13, LOW);
-delay(1000);
-}
+2. Develop an Angular JS application that displays a list of shopping items. Allow users to add and remove items from the list using directives and controllers
+
+<!DOCTYPE html>
+<html lang="en" ng-app="shoppingApp">
+<head>
+  <meta charset="UTF-8">
+  <title>Shopping List App</title>
+  <script src="angular.min.js"></script>
+</head>
+<body>
+<div ng-controller="ShoppingController as shoppingCtrl">
+  <h2>Shopping List</h2>
+  <form ng-submit="shoppingCtrl.addItem()">
+    <input type="text" ng-model="shoppingCtrl.newItem" placeholder="Add new item" required>
+    <button type="submit">Add Item</button>
+  </form>
+  <ul>
+    <li ng-repeat="item in shoppingCtrl.items">
+      {{ item }}
+      <button ng-click="shoppingCtrl.removeItem($index)">Remove</button>
+    </li>
+  </ul>
+</div>
+<script>
+  angular.module('shoppingApp', [])
+    .controller('ShoppingController', function () {
+      var vm = this;
+      vm.items = ['Biscuit', 'Oil', 'Soap'];
+
+      vm.addItem = function () {
+        if (vm.newItem && vm.items.indexOf(vm.newItem) === -1) {
+          vm.items.push(vm.newItem);
+          vm.newItem = '';
+        }
+      };
+
+      vm.removeItem = function (index) {
+        vm.items.splice(index, 1);
+      };
+    });
+</script>
+</body>
+</html>
+</html>
