@@ -1,60 +1,51 @@
-#include <DHTesp.h>
-#include <WiFi.h>
-#include<ThingSpeak.h>
-DHTesp dhtSensor;
-TempAndHumidity data;
-const int dhtpin=15;
 
-char ssid[]="Wokwi-GUEST";
-char pass[]="";
-WiFiClient client;
+8. Develop AngularJS program to create a login form, with validation for the username and password fields.
 
-unsigned long myChannelNumber=  2330696;
-const char* myWriteAPIKey="58EV8IN088WTTXLP";
-int statusCode;
+<!DOCTYPE html>
+<html lang="en" ng-app="loginApp">
+<head>
+    <meta charset="UTF-8">
+    <title>Login Form</title>
+    <script src="angular.min.js"></script>
+</head>
+<body>
+    <div ng-controller="LoginController">
+        <h2>Login Form</h2>
+        
+        <form name="loginForm" ng-submit="login()" novalidate>
+            <label>Username:</label>
+            <input type="text" ng-model="username" name="username" required>
+            <div ng-show="loginForm.username.$dirty && loginForm.username.$error.required">Username is required</div>
+            
+            <label>Password:</label>
+            <input type="password" ng-model="password" name="password" required>
+            <div ng-show="loginForm.password.$dirty && loginForm.password.$error.required">Password is required</div>
+            
+            <button type="submit" ng-disabled="loginForm.$invalid">Login</button>
+        </form>
 
-void setup() {
-  // put your setup code here, to run once:
-  Serial.begin(115200);
-  dhtSensor.setup(dhtpin,DHTesp::DHT22);
-  WiFi.mode(WIFI_STA);
-  ThingSpeak.begin(client);
-  delay(1000);
-}
+        <div ng-show="loginError" style="color: red;">{{loginError}}</div>
+    </div>
 
-void getwifi()
-{
-  if(WiFi.status()!=WL_CONNECTED)
-  {
-     Serial.print("Attempting to connect");
-     while(WiFi.status()!=WL_CONNECTED)
-    {
-      WiFi.begin(ssid,pass);
-      Serial.print(".");
-      delay(5000);
-    }
-  }
-  Serial.println("\nConnected");
-}
+    <script>
+        var app = angular.module('loginApp', []);
 
-
-void loop() {
-  getwifi();
-  data =dhtSensor.getTempAndHumidity();
-  Serial.println("Humi:"+String(data.humidity));
-  Serial.println("Temp:"+String(data.temperature));
-  Serial.println("<-------------------->"); // this speeds up the simulation
-  ThingSpeak.setField(1,data.humidity);
-  ThingSpeak.setField(2,data.temperature);
-   statusCode=ThingSpeak.writeFields(myChannelNumber,myWriteAPIKey);
-   
-  if(statusCode==200)
-  {
-    Serial.println("Channel update successful");
-  }
-  else
-  {
-    Serial.println("Problem Writing data: HTTp error code:"+String(statusCode));
-  }
-  delay(15000);
-}
+        app.controller('LoginController', function($scope) 
+        {
+            $scope.login = function() 
+            {
+                if ($scope.username === 'admin' && $scope.password === 'password') 
+                {
+                    alert('Login successful!');
+                    $scope.loginError = '';
+                } 
+                else 
+                {
+                   
+                    $scope.loginError = 'Invalid username or password';
+                }
+            };
+        });
+    </script>
+</body>
+</html>
