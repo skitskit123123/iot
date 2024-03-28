@@ -1,26 +1,50 @@
-#define LIGHT_SENSOR_PIN 36 // ESP32 pin GIOP36 (ADC0)
+10. Create AngularJS application that allows users to maintain a collection of items. The application should display the current total number of items, and this count should automatically update as items are added or removed. Users should be able to add items to the collection and remove them as needed. Note: The default values for items may be included in the program.
+<!DOCTYPE html>
+<html ng-app="itemApp">
+<head>
+  <title>Item Collection</title>
+  <script src="angular.min.js"></script>
+</head>
+<body>
 
-void setup() {
-  Serial.begin(9600);
-}
+<div ng-controller="itemCtrl" id="itemCollection">
+  <h2>Item Collection</h2>
 
-void loop() {
-  int analogValue = analogRead(LIGHT_SENSOR_PIN);
+  <label for="newItem">New Item:</label>
+  <input type="text" id="newItem" ng-model="newItem" required>
+  <button ng-click="addItem()">Add Item</button>
 
-  Serial.print("Analog Value = ");
-  Serial.print(analogValue);
+  <ul>
+    <li ng-repeat="item in items">
+      {{ item }}
+      <button ng-click="removeItem($index)">Remove</button>
+    </li>
+  </ul>
 
-  if (analogValue < 40) {
-    Serial.println(" => Dark");
-  } else if (analogValue < 800) {
-    Serial.println(" => Dim");
-  } else if (analogValue < 2000) {
-    Serial.println(" => Light");
-  } else if (analogValue < 3200) {
-    Serial.println(" => Bright");
-  } else {
-    Serial.println(" => Very bright");
-  }
+  <p>Total Items: {{ items.length }}</p>
+</div>
+<script>
+  var app = angular.module('itemApp', []);
+  app.controller('itemCtrl', function ($scope)
+  {
+    $scope.items = ["Graphes", "Mango", "Papaya"];
+    $scope.newItem = "";
+    $scope.addItem = function () 
+    {
+      if ($scope.newItem.trim() !== "") 
+      {
+        $scope.items.push($scope.newItem);
+        $scope.newItem = "";
+      }
+    };
 
-  delay(500);
-}
+    $scope.removeItem = function (index) 
+    {
+      $scope.items.splice(index, 1);
+    };
+  });
+</script>
+</body>
+</html>
+
+
