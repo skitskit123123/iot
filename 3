@@ -1,18 +1,74 @@
-#define dht_dpin 2
-#include<dht.h>
-dht DHT;
-void setup()
-{
-Serial.begin(9600);
-Serial.println("Humidity and temperature\n\n");
-}
-void loop()
-{
-DHT.read11(dht_dpin);
-Serial.print("Current humidity = ");
-Serial.print(DHT.humidity);
-Serial.print("temperature = ");
-Serial.print(DHT.temperature);
-Serial.println("C ");
-delay(1000);
-}
+
+3. Develop a simple Angular JS calculator application that can perform basic mathematical operations (addition, subtraction, multiplication, division) based on user input.
+
+<!DOCTYPE html>
+<html ng-app="calculatorApp">
+
+<head>
+  <title>Calculator</title>
+  <script src="angular.min.js"></script>
+</head>
+
+<body ng-controller="calculatorCtrl">
+
+  <div class="calculator">
+    <h2>Calculator</h2>
+
+    <label for="num1">Number 1:</label>
+    <input type="number" id="num1" ng-model="num1" required>
+
+    <label for="num2">Number 2:</label>
+    <input type="number" id="num2" ng-model="num2" required>
+    
+    <label for="operation">Operation:</label>
+    <select id="operation" ng-model="operation" required>
+        
+    <option value= "add">Addition</option>
+    <option value="subtract">Subtraction</option>
+    <option value="multiply">Multiplication</option>
+    <option value="divide">Division</option>
+    
+    </select>
+    <button ng-click="calculate()">Calculate</button>
+
+    <p ng-show="result !== undefined">Result: {{result}}</p>
+  </div>
+
+  <script>
+    var app = angular.module('calculatorApp', []);
+
+    app.controller('calculatorCtrl', function ($scope) {
+      $scope.num1 = 0;
+      $scope.num2 = 0;
+      $scope.operation = 'subtract';
+      $scope.result = undefined;
+
+      $scope.calculate = function () {
+        switch ($scope.operation) {
+          case 'add':
+            $scope.result = $scope.num1 + $scope.num2;
+            break;
+          case 'subtract':
+            $scope.result = $scope.num1 - $scope.num2;
+            break;
+          case 'multiply':
+            $scope.result = $scope.num1 * $scope.num2;
+            break;
+          case 'divide':
+            if ($scope.num2 !== 0) {
+              $scope.result = $scope.num1 / $scope.num2;
+            } else {
+              alert('Cannot divide by zero!');
+            }
+            break;
+          default:
+            $scope.result = undefined;
+        }
+      };
+    });
+  </script>
+
+</body>
+
+</html>
+
