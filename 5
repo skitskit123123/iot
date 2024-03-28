@@ -1,24 +1,62 @@
-#include<dht.h>
-#include outpin8
-dht DHT
-void setup()
-{
-  Serial.begin(9600);
-  Serial.println("DHTxx test!");
-}
-void loop()
-{
-  int read Data=DHT.read11(outpin);
-  float t= DHT.temperature;
-  float h= DHT.humidity;
-  if(isnan(h)||isnan(t))
-  {
-    Serial.println("Failed to read from DHT sensor!");
-    return;
-  }
-  else
-  String message=(string)"humidity:"+h+"% temperature"+t+"c";
-  Serial.println(message);
-  delay(2000);
-  
-}
+5. Develop AngularJS application that displays a details of students and their CGPA. Allow users to read the number of students and display the count. Note: Student details may be included in the program.
+
+<!DOCTYPE html>
+<html lang="en" ng-app="studentApp">
+<head>
+    <meta charset="UTF-8">
+    <title>Student Details</title>
+    <script src="angular.min.js"></script>
+</head>
+<body>
+    <div ng-controller="StudentController">
+        <h1>Student Details</h1>
+        
+        <label>Enter number of students:</label>
+        <input type="number" ng-model="numStudents" ng-change="generateStudents()">
+        
+        <p>Total Students: {{ students.length }}</p>
+        
+        <table border="1">
+            <thead>
+                <tr>
+                    <th>Student ID</th>
+                    <th>Name</th>
+                    <th>CGPA</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="student in students">
+                    <td>{{ student.id }}</td>
+                    <td>{{ student.name }}</td>
+                    <td>{{ student.cgpa }}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <script>
+        var app = angular.module('studentApp', []);
+
+        app.controller('StudentController', function($scope) 
+        {
+            $scope.students = [];
+
+            $scope.generateStudents = function() 
+            {
+                $scope.students = [];
+                for (var i = 0; i < $scope.numStudents; i++)
+                {
+                    var student = {
+                        id: i + 1,
+                        name: 'Student ' + (i + 1),
+                        cgpa: (Math.random() * 4).toFixed(2)
+                    };
+                    $scope.students.push(student);
+                }
+            };
+        });
+    </script>
+</body>
+</html>
+
+	
